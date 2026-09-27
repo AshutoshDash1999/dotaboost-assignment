@@ -4,7 +4,8 @@ import { IconLoader2, IconSearch } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { Button } from "@/components/ui/button";
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Combobox,
   ComboboxContent,
@@ -69,7 +70,7 @@ export function PlayerSearch() {
       : [];
 
   return (
-    <section className="mb-10">
+    <section className="mb-10 flex items-center gap-2">
       <Combobox<PlayerOption>
         items={options}
         // Results are already filtered server-side by OpenDota
@@ -84,7 +85,7 @@ export function PlayerSearch() {
         // names aren't unique, so the user must pick one explicitly
         autoHighlight={query.kind === "id"}
       >
-        <div ref={anchorRef}>
+        <div ref={anchorRef} className="min-w-0 flex-1">
           <ComboboxInput
             className="h-11 w-full"
             placeholder="Search by name, Dota ID or Steam ID"
@@ -135,6 +136,12 @@ export function PlayerSearch() {
           )}
         </ComboboxContent>
       </Combobox>
+      <AnimatedThemeToggler
+        className={buttonVariants({
+          variant: "outline",
+          className: "size-11 shrink-0",
+        })}
+      />
     </section>
   );
 }
