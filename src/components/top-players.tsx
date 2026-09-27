@@ -1,6 +1,8 @@
 "use client";
 
+import { motion } from "motion/react";
 import { PlayerCard, PlayerCardSkeleton } from "@/components/player-card";
+import { staggerContainer, staggerItem } from "@/components/stagger";
 import { Button } from "@/components/ui/button";
 import { useTopPlayers } from "@/lib/api/hooks";
 
@@ -45,12 +47,17 @@ export function TopPlayers() {
   }
 
   return (
-    <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <motion.ol
+      className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3"
+      variants={staggerContainer}
+      initial="hidden"
+      animate="show"
+    >
       {topPlayers.slice(0, HOME_LIMIT).map((player, index) => (
-        <li key={player.account_id}>
+        <motion.li key={player.account_id} variants={staggerItem}>
           <PlayerCard player={player} position={index + 1} />
-        </li>
+        </motion.li>
       ))}
-    </ol>
+    </motion.ol>
   );
 }

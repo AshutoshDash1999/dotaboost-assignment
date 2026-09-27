@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "motion/react";
 import Link from "next/link";
 import { AverageStats } from "@/components/player/average-stats";
 import { LaneRoles } from "@/components/player/lane-roles";
@@ -11,6 +12,7 @@ import { PlayerStats } from "@/components/player/player-stats";
 import { RecentMatches } from "@/components/player/recent-matches";
 import { StatDistribution } from "@/components/player/stat-distribution";
 import { TopHeroes } from "@/components/player/top-heroes";
+import { StaggerItem, staggerContainer } from "@/components/stagger";
 import { Button } from "@/components/ui/button";
 import {
   useHeroes,
@@ -78,41 +80,60 @@ export function PlayerDetails({ accountId }: { accountId: string }) {
   const name = player.profile?.personaname;
 
   return (
-    <main className="mx-auto w-full max-w-6xl flex-1 space-y-8 px-4 py-10 sm:px-6">
+    <motion.main
+      className="mx-auto w-full max-w-6xl flex-1 space-y-8 px-4 py-10 sm:px-6"
+      variants={staggerContainer}
+      initial="hidden"
+      animate="show"
+    >
       <title>{name ? `${name} · Dota stats` : "Dota stats"}</title>
-      <Link
-        href="/"
-        className="text-sm text-muted-foreground hover:text-foreground"
-      >
-        ← Back to top players
-      </Link>
-      <PlayerHeader player={player} />
-      <PlayerStats
-        player={player}
-        overall={overall.winLoss}
-        recent={recent.winLoss}
-        recentLimit={RECENT_WL_LIMIT}
-      />
-      <AverageStats totals={totals.totals} />
-      <div className="grid gap-8 lg:grid-cols-3">
+      <StaggerItem>
+        <Link
+          href="/"
+          className="text-sm text-muted-foreground hover:text-foreground"
+        >
+          ← Back to top players
+        </Link>
+      </StaggerItem>
+      <StaggerItem>
+        <PlayerHeader player={player} />
+      </StaggerItem>
+      <StaggerItem>
+        <PlayerStats
+          player={player}
+          overall={overall.winLoss}
+          recent={recent.winLoss}
+          recentLimit={RECENT_WL_LIMIT}
+        />
+      </StaggerItem>
+      <StaggerItem>
+        <AverageStats totals={totals.totals} />
+      </StaggerItem>
+      <StaggerItem className="grid gap-8 lg:grid-cols-3">
         <PerformanceTrend
           matches={matches.recentMatches}
           heroes={heroes.heroes}
         />
         <LaneRoles laneRoles={counts.counts?.lane_role} />
-      </div>
-      <RecentMatches
-        matches={matches.recentMatches.slice(0, RECENT_MATCHES)}
-        heroes={heroes.heroes}
-      />
-      <TopHeroes
-        // Already sorted by games; drop heroes the player never picked
-        playerHeroes={playerHeroes.playerHeroes
-          .filter((hero) => hero.games > 0)
-          .slice(0, TOP_HEROES)}
-        heroes={heroes.heroes}
-      />
-      <StatDistribution accountId={accountId} />
-    </main>
+      </StaggerItem>
+      <StaggerItem>
+        <RecentMatches
+          matches={matches.recentMatches.slice(0, RECENT_MATCHES)}
+          heroes={heroes.heroes}
+        />
+      </StaggerItem>
+      <StaggerItem>
+        <TopHeroes
+          // Already sorted by games; drop heroes the player never picked
+          playerHeroes={playerHeroes.playerHeroes
+            .filter((hero) => hero.games > 0)
+            .slice(0, TOP_HEROES)}
+          heroes={heroes.heroes}
+        />
+      </StaggerItem>
+      <StaggerItem>
+        <StatDistribution accountId={accountId} />
+      </StaggerItem>
+    </motion.main>
   );
 }
