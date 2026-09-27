@@ -1,3 +1,9 @@
+import {
+  IconChartLine,
+  IconHistory,
+  IconMedal,
+  IconTrophy,
+} from "@tabler/icons-react";
 import { Card, CardContent } from "@/components/ui/card";
 import type { PlayerProfile, WinLoss } from "@/lib/api/types";
 import { formatPercent, winRate } from "@/lib/dota";
@@ -17,6 +23,7 @@ export function PlayerStats({
   const stats = [
     {
       label: "Rank",
+      icon: IconMedal,
       value: getRankLabel(player.rank_tier),
       hint: player.leaderboard_rank
         ? `Leaderboard #${player.leaderboard_rank}`
@@ -24,6 +31,7 @@ export function PlayerStats({
     },
     {
       label: "MMR (est.)",
+      icon: IconChartLine,
       value: player.computed_mmr
         ? Math.round(player.computed_mmr).toLocaleString()
         : "—",
@@ -31,11 +39,13 @@ export function PlayerStats({
     },
     {
       label: "Win rate",
+      icon: IconTrophy,
       value: formatPercent(winRate(overall.win, overall.win + overall.lose)),
       hint: `${overall.win.toLocaleString()}W – ${overall.lose.toLocaleString()}L`,
     },
     {
       label: `Last ${recentLimit}`,
+      icon: IconHistory,
       value: formatPercent(winRate(recent.win, recent.win + recent.lose)),
       hint: `${recent.win}W – ${recent.lose}L`,
     },
@@ -46,7 +56,10 @@ export function PlayerStats({
       {stats.map((stat) => (
         <Card key={stat.label} size="sm">
           <CardContent>
-            <dt className="text-xs text-muted-foreground">{stat.label}</dt>
+            <dt className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <stat.icon className="size-3.5 shrink-0" aria-hidden />
+              {stat.label}
+            </dt>
             <dd className="mt-1 text-xl font-semibold tabular-nums">
               {stat.value}
             </dd>

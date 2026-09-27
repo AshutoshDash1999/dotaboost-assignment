@@ -33,3 +33,11 @@ export function formatCompact(value: number): string {
 export function heroImageUrl(path: string): string {
   return `${STEAM_CDN}${path.replace(/\?$/, "")}`;
 }
+
+// lane_role IDs from OpenDota; 0 means the match wasn't parsed
+export const LANE_ROLES: Record<string, string> = {
+  "1": "Safe lane",
+  "2": "Mid lane",
+  "3": "Off lane",
+  "4": "Jungle",
+};

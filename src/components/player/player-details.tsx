@@ -1,18 +1,24 @@
 "use client";
 
 import Link from "next/link";
+import { AverageStats } from "@/components/player/average-stats";
+import { LaneRoles } from "@/components/player/lane-roles";
+import { PerformanceTrend } from "@/components/player/performance-trend";
 import { PlayerHeader } from "@/components/player/player-header";
 import { PlayerNotFound } from "@/components/player/player-not-found";
 import { PlayerSkeleton } from "@/components/player/player-skeleton";
 import { PlayerStats } from "@/components/player/player-stats";
 import { RecentMatches } from "@/components/player/recent-matches";
+import { StatDistribution } from "@/components/player/stat-distribution";
 import { TopHeroes } from "@/components/player/top-heroes";
 import { Button } from "@/components/ui/button";
 import {
   useHeroes,
+  usePlayerCounts,
   usePlayerHeroes,
   usePlayerLookup,
   usePlayerRecentMatches,
+  usePlayerTotals,
   usePlayerWinLoss,
 } from "@/lib/api/hooks";
 
@@ -31,9 +37,20 @@ export function PlayerDetails({ accountId }: { accountId: string }) {
   const recent = usePlayerWinLoss(accountId, RECENT_WL_LIMIT);
   const matches = usePlayerRecentMatches(accountId);
   const playerHeroes = usePlayerHeroes(accountId);
+  const totals = usePlayerTotals(accountId);
+  const counts = usePlayerCounts(accountId);
   const heroes = useHeroes();
 
-  const queries = [lookup, overall, recent, matches, playerHeroes, heroes];
+  const queries = [
+    lookup,
+    overall,
+    recent,
+    matches,
+    playerHeroes,
+    totals,
+    counts,
+    heroes,
+  ];
 
   if (isNotFound(lookup.error)) return <PlayerNotFound />;
 
@@ -76,6 +93,14 @@ export function PlayerDetails({ accountId }: { accountId: string }) {
         recent={recent.winLoss}
         recentLimit={RECENT_WL_LIMIT}
       />
+      <AverageStats totals={totals.totals} />
+      <div className="grid gap-8 lg:grid-cols-3">
+        <PerformanceTrend
+          matches={matches.recentMatches}
+          heroes={heroes.heroes}
+        />
+        <LaneRoles laneRoles={counts.counts?.lane_role} />
+      </div>
       <RecentMatches
         matches={matches.recentMatches.slice(0, RECENT_MATCHES)}
         heroes={heroes.heroes}
@@ -87,6 +112,7 @@ export function PlayerDetails({ accountId }: { accountId: string }) {
           .slice(0, TOP_HEROES)}
         heroes={heroes.heroes}
       />
+      <StatDistribution accountId={accountId} />
     </main>
   );
 }

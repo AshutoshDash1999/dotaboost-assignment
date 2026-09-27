@@ -24,6 +24,10 @@ export function PlayerSkeleton() {
           </Card>
         ))}
       </div>
+      <div className="grid gap-8 lg:grid-cols-3">
+        <div className="h-80 rounded-xl bg-muted lg:col-span-2" />
+        <div className="h-80 rounded-xl bg-muted" />
+      </div>
       {["matches", "heroes"].map((section) => (
         <Card key={section}>
           <CardHeader>

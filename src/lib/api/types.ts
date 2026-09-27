@@ -91,3 +91,33 @@ export interface HeroConstant {
   img: string;
   icon: string;
 }
+
+export interface PlayerTotal {
+  field: string;
+  // Matches that recorded this field; parsed-only stats have a smaller n
+  n: number;
+  sum: number;
+}
+
+export interface CategoryCount {
+  games: number;
+  win: number;
+}
+
+// Each category maps an ID (lane role, game mode, …) to its games and wins
+export interface PlayerCounts {
+  lane_role: Record<string, CategoryCount>;
+  game_mode: Record<string, CategoryCount>;
+  lobby_type: Record<string, CategoryCount>;
+  region: Record<string, CategoryCount>;
+  patch: Record<string, CategoryCount>;
+  leaver_status: Record<string, CategoryCount>;
+  is_radiant: Record<string, CategoryCount>;
+}
+
+export interface HistogramBin {
+  // Lower bound of the bin
+  x: number;
+  games: number;
+  win: number;
+}
