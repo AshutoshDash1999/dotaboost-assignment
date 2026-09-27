@@ -6,6 +6,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "avatars.steamstatic.com" },
       { protocol: "https", hostname: "cdn.cloudflare.steamstatic.com" },
+      {
+        protocol: "https",
+        hostname: "www.opendota.com",
+        pathname: "/assets/images/dota2/rank_icons/**",
+      },
     ],
   },
 };

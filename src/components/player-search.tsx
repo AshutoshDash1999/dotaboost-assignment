@@ -4,8 +4,8 @@ import { IconLoader2, IconSearch } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { RankMedal } from "@/components/rank-medal";
+import { Button } from "@/components/ui/button";
 import {
   Combobox,
   ComboboxContent,
@@ -28,6 +28,7 @@ interface PlayerOption {
   personaname: string | null;
   avatarfull: string | null;
   description: string;
+  rankTier?: number | null;
 }
 
 export function PlayerSearch() {
@@ -65,12 +66,13 @@ export function PlayerSearch() {
             personaname: profile.personaname,
             avatarfull: profile.avatarfull,
             description: `${getRankLabel(lookup.player?.rank_tier ?? null)} · ID ${profile.account_id}`,
+            rankTier: lookup.player?.rank_tier ?? null,
           },
         ]
       : [];
 
   return (
-    <section className="mb-10 flex items-center gap-2">
+    <section className="mx-auto my-10 max-w-2xl">
       <Combobox<PlayerOption>
         items={options}
         // Results are already filtered server-side by OpenDota
@@ -85,9 +87,9 @@ export function PlayerSearch() {
         // names aren't unique, so the user must pick one explicitly
         autoHighlight={query.kind === "id"}
       >
-        <div ref={anchorRef} className="min-w-0 flex-1">
+        <div ref={anchorRef}>
           <ComboboxInput
-            className="h-11 w-full"
+            className="h-12 w-full text-base"
             placeholder="Search by name, Dota ID or Steam ID"
             aria-label="Search players"
             showTrigger={false}
@@ -136,12 +138,6 @@ export function PlayerSearch() {
           )}
         </ComboboxContent>
       </Combobox>
-      <AnimatedThemeToggler
-        className={buttonVariants({
-          variant: "outline",
-          className: "size-11 shrink-0",
-        })}
-      />
     </section>
   );
 }
@@ -155,10 +151,10 @@ function PlayerOptionRow({ player }: { player: PlayerOption }) {
           alt=""
           width={36}
           height={36}
-          className="size-9 shrink-0 rounded-full"
+          className="size-9 shrink-0 rounded-sm border border-frame"
         />
       ) : (
-        <div className="size-9 shrink-0 rounded-full bg-muted" />
+        <div className="size-9 shrink-0 rounded-sm bg-muted" />
       )}
       <div className="min-w-0 flex-1">
         <p className="truncate font-medium">
@@ -168,9 +164,13 @@ function PlayerOptionRow({ player }: { player: PlayerOption }) {
           {player.description}
         </p>
       </div>
-      <span className="text-xs text-muted-foreground tabular-nums">
-        #{player.account_id}
-      </span>
+      {player.rankTier !== undefined ? (
+        <RankMedal rankTier={player.rankTier} className="size-9" />
+      ) : (
+        <span className="text-xs text-muted-foreground tabular-nums">
+          #{player.account_id}
+        </span>
+      )}
     </>
   );
 }
@@ -179,14 +179,11 @@ function ResultsSkeleton({ count }: { count: number }) {
   return (
     <div className="space-y-1 p-1">
       {SKELETON_KEYS.slice(0, count).map((key) => (
-        <div
-          key={key}
-          className="flex animate-pulse items-center gap-2.5 px-3 py-2"
-        >
-          <div className="size-9 rounded-full bg-muted" />
+        <div key={key} className="flex items-center gap-2.5 px-3 py-2">
+          <div className="size-9 rounded-sm hud-skeleton" />
           <div className="flex-1 space-y-2">
-            <div className="h-3.5 w-1/3 rounded bg-muted" />
-            <div className="h-3 w-1/4 rounded bg-muted" />
+            <div className="h-3.5 w-1/3 rounded-sm hud-skeleton" />
+            <div className="h-3 w-1/4 rounded-sm hud-skeleton" />
           </div>
         </div>
       ))}

@@ -3,6 +3,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { HeroConstant, PlayerHero } from "@/lib/api/types";
 import { dayjs } from "@/lib/dayjs";
 import { formatPercent, winRate } from "@/lib/dota";
+import { cn } from "@/lib/utils";
+
+// Radiant green for strong heroes, gold for even, Dire red for weak
+const rateColor = (rate: number) =>
+  rate >= 55 ? "bg-radiant" : rate >= 45 ? "bg-gold" : "bg-dire";
 
 export function TopHeroes({
   playerHeroes,
@@ -24,8 +29,8 @@ export function TopHeroes({
         ) : (
           <div className="-mx-(--card-spacing) overflow-x-auto px-(--card-spacing)">
             <table className="w-full text-left text-sm">
-              <thead className="text-xs text-muted-foreground">
-                <tr className="border-b">
+              <thead className="text-[11px] tracking-wider text-muted-foreground uppercase">
+                <tr className="border-b border-frame">
                   <th className="py-2 pr-4 font-medium">Hero</th>
                   <th className="py-2 pr-4 font-medium">Games</th>
                   <th className="w-2/5 py-2 pr-4 font-medium">Win rate</th>
@@ -45,9 +50,12 @@ export function TopHeroes({
                       </td>
                       <td className="py-2.5 pr-4">
                         <div className="flex items-center gap-2">
-                          <div className="h-1.5 min-w-16 flex-1 overflow-hidden rounded-full bg-muted">
+                          <div className="h-2 min-w-16 flex-1 overflow-hidden rounded-[2px] border border-frame bg-muted/60">
                             <div
-                              className="h-full rounded-full bg-primary"
+                              className={cn(
+                                "h-full shadow-[inset_0_1px_0_rgb(255_255_255/30%)]",
+                                rateColor(rate),
+                              )}
                               style={{ width: `${rate}%` }}
                             />
                           </div>

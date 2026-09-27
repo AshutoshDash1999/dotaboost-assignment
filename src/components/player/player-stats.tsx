@@ -4,7 +4,8 @@ import {
   IconMedal,
   IconTrophy,
 } from "@tabler/icons-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { StatTile, winRateColor } from "@/components/player/stat-tile";
+import { RankMedal } from "@/components/rank-medal";
 import type { PlayerProfile, WinLoss } from "@/lib/api/types";
 import { formatPercent, winRate } from "@/lib/dota";
 import { getRankLabel } from "@/lib/rank";
@@ -20,6 +21,8 @@ export function PlayerStats({
   recent: WinLoss;
   recentLimit: number;
 }) {
+  const overallRate = winRate(overall.win, overall.win + overall.lose);
+  const recentRate = winRate(recent.win, recent.win + recent.lose);
   const stats = [
     {
       label: "Rank",
@@ -28,6 +31,13 @@ export function PlayerStats({
       hint: player.leaderboard_rank
         ? `Leaderboard #${player.leaderboard_rank}`
         : null,
+      aside: (
+        <RankMedal
+          rankTier={player.rank_tier}
+          leaderboardRank={player.leaderboard_rank}
+          className="size-10"
+        />
+      ),
     },
     {
       label: "MMR (est.)",
@@ -40,13 +50,15 @@ export function PlayerStats({
     {
       label: "Win rate",
       icon: IconTrophy,
-      value: formatPercent(winRate(overall.win, overall.win + overall.lose)),
+      value: formatPercent(overallRate),
+      valueClassName: winRateColor(overallRate),
       hint: `${overall.win.toLocaleString()}W – ${overall.lose.toLocaleString()}L`,
     },
     {
       label: `Last ${recentLimit}`,
       icon: IconHistory,
-      value: formatPercent(winRate(recent.win, recent.win + recent.lose)),
+      value: formatPercent(recentRate),
+      valueClassName: winRateColor(recentRate),
       hint: `${recent.win}W – ${recent.lose}L`,
     },
   ];
@@ -54,22 +66,7 @@ export function PlayerStats({
   return (
     <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4">
       {stats.map((stat) => (
-        <Card key={stat.label} size="sm">
-          <CardContent>
-            <dt className="flex items-center gap-1.5 text-xs text-muted-foreground">
-              <stat.icon className="size-3.5 shrink-0" aria-hidden />
-              {stat.label}
-            </dt>
-            <dd className="mt-1 text-xl font-semibold tabular-nums">
-              {stat.value}
-            </dd>
-            {stat.hint && (
-              <dd className="text-xs text-muted-foreground tabular-nums">
-                {stat.hint}
-              </dd>
-            )}
-          </CardContent>
-        </Card>
+        <StatTile key={stat.label} {...stat} />
       ))}
     </dl>
   );

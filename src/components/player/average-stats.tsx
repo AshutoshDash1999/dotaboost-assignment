@@ -8,7 +8,8 @@ import {
   IconSparkles,
   IconSwords,
 } from "@tabler/icons-react";
-import { Card, CardContent } from "@/components/ui/card";
+import { StatTile } from "@/components/player/stat-tile";
+import { SectionHeading } from "@/components/section-heading";
 import type { PlayerTotal } from "@/lib/api/types";
 import { formatCompact, formatDuration } from "@/lib/dota";
 
@@ -71,33 +72,20 @@ export function AverageStats({ totals }: { totals: PlayerTotal[] }) {
   ];
 
   return (
-    <section className="space-y-3">
-      <div className="flex items-baseline justify-between gap-4">
-        <h2 className="font-medium">Career averages</h2>
-        {matches > 0 && (
-          <p className="text-xs text-muted-foreground tabular-nums">
-            Across {matches.toLocaleString()} matches
-          </p>
-        )}
-      </div>
+    <section className="space-y-4">
+      <SectionHeading
+        title="Career averages"
+        aside={
+          matches > 0 && (
+            <p className="text-right text-xs text-muted-foreground tabular-nums">
+              Across {matches.toLocaleString()} matches
+            </p>
+          )
+        }
+      />
       <dl className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {stats.map((stat) => (
-          <Card key={stat.label} size="sm">
-            <CardContent>
-              <dt className="flex items-center gap-1.5 text-xs text-muted-foreground">
-                <stat.icon className="size-3.5 shrink-0" aria-hidden />
-                {stat.label}
-              </dt>
-              <dd className="mt-1 text-xl font-semibold whitespace-nowrap tabular-nums">
-                {stat.value}
-              </dd>
-              {stat.hint && (
-                <dd className="text-xs text-muted-foreground tabular-nums">
-                  {stat.hint}
-                </dd>
-              )}
-            </CardContent>
-          </Card>
+          <StatTile key={stat.label} {...stat} />
         ))}
       </dl>
     </section>

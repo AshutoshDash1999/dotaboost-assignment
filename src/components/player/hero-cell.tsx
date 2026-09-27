@@ -11,10 +11,10 @@ export function HeroCell({ hero }: { hero: HeroConstant | undefined }) {
           alt=""
           width={48}
           height={27}
-          className="h-[27px] w-12 shrink-0 rounded object-cover"
+          className="h-[27px] w-12 shrink-0 rounded-[2px] object-cover shadow-sm ring-1 ring-frame"
         />
       ) : (
-        <div className="h-[27px] w-12 shrink-0 rounded bg-muted" />
+        <div className="h-[27px] w-12 shrink-0 rounded-[2px] bg-muted ring-1 ring-frame" />
       )}
       <span className="truncate font-medium">
         {hero?.localized_name ?? "Unknown hero"}

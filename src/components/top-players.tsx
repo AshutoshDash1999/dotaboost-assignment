@@ -29,7 +29,7 @@ export function TopPlayers() {
 
   if (isError) {
     return (
-      <div className="flex flex-col items-center gap-3 py-12 text-center">
+      <div className="flex flex-col items-center gap-3 hud-panel py-12 text-center">
         <p className="text-muted-foreground">Couldn't load top players.</p>
         <Button variant="outline" onClick={() => refetch()}>
           Try again
@@ -54,7 +54,11 @@ export function TopPlayers() {
       animate="show"
     >
       {topPlayers.slice(0, HOME_LIMIT).map((player, index) => (
-        <motion.li key={player.account_id} variants={staggerItem}>
+        <motion.li
+          key={player.account_id}
+          variants={staggerItem}
+          whileHover={{ y: -3 }}
+        >
           <PlayerCard player={player} position={index + 1} />
         </motion.li>
       ))}

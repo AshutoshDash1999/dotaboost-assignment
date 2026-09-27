@@ -25,9 +25,9 @@ export function RecentMatches({
         ) : (
           <div className="-mx-(--card-spacing) overflow-x-auto px-(--card-spacing)">
             <table className="w-full text-left text-sm">
-              <thead className="text-xs text-muted-foreground">
-                <tr className="border-b">
-                  <th className="py-2 pr-4 font-medium">Hero</th>
+              <thead className="text-[11px] tracking-wider text-muted-foreground uppercase">
+                <tr className="border-b border-frame">
+                  <th className="py-2 pr-4 pl-3.5 font-medium">Hero</th>
                   <th className="py-2 pr-4 font-medium">Result</th>
                   <th className="py-2 pr-4 font-medium">K / D / A</th>
                   <th className="hidden py-2 pr-4 font-medium md:table-cell">
@@ -44,19 +44,32 @@ export function RecentMatches({
                 {matches.map((match) => {
                   const won = isWin(match);
                   return (
-                    <tr key={match.match_id} className="border-b last:border-0">
-                      <td className="py-2.5 pr-4">
-                        <HeroCell hero={heroes[match.hero_id]} />
-                      </td>
+                    <tr
+                      key={match.match_id}
+                      className={cn(
+                        "border-b last:border-0",
+                        won ? "bg-radiant/5" : "bg-dire/5",
+                      )}
+                    >
                       <td
                         className={cn(
-                          "py-2.5 pr-4 font-medium",
-                          won
-                            ? "text-emerald-600 dark:text-emerald-400"
-                            : "text-red-600 dark:text-red-400",
+                          "border-l-[3px] py-2.5 pr-4 pl-3",
+                          won ? "border-l-radiant" : "border-l-dire",
                         )}
                       >
-                        {won ? "Win" : "Loss"}
+                        <HeroCell hero={heroes[match.hero_id]} />
+                      </td>
+                      <td className="py-2.5 pr-4">
+                        <span
+                          className={cn(
+                            "rounded-sm border px-1.5 py-0.5 font-heading text-[11px] font-bold tracking-wider uppercase",
+                            won
+                              ? "border-radiant/40 bg-radiant/10 text-radiant"
+                              : "border-dire/40 bg-dire/10 text-dire",
+                          )}
+                        >
+                          {won ? "Victory" : "Defeat"}
+                        </span>
                       </td>
                       <td className="py-2.5 pr-4 whitespace-nowrap">
                         {match.kills} / {match.deaths} / {match.assists}

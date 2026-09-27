@@ -9,8 +9,8 @@ export function ChartTooltipCard({
   rows: { label: string; value: ReactNode; color?: string }[];
 }) {
   return (
-    <div className="grid min-w-36 gap-1.5 rounded-lg border border-border/50 bg-background px-2.5 py-1.5 text-xs shadow-xl">
-      <div className="font-medium">{title}</div>
+    <div className="grid min-w-36 gap-1.5 rounded-sm border border-frame bg-popover/95 px-2.5 py-1.5 text-xs shadow-[var(--panel-shadow),0_0_20px_-8px_var(--glow)] backdrop-blur-sm">
+      <div className="font-heading font-semibold text-gold">{title}</div>
       {rows.map((row) => (
         <div key={row.label} className="flex items-center gap-2">
           {row.color && (

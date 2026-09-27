@@ -83,7 +83,7 @@ export function LaneRoles({
                   );
                 }}
               />
-              <Bar dataKey="games" fill="var(--color-games)" radius={4}>
+              <Bar dataKey="games" fill="var(--color-games)" radius={2}>
                 <LabelList
                   dataKey="rate"
                   position="right"

@@ -1,5 +1,6 @@
 "use client";
 
+import { IconArrowLeft } from "@tabler/icons-react";
 import { motion } from "motion/react";
 import Link from "next/link";
 import { AverageStats } from "@/components/player/average-stats";
@@ -58,16 +59,18 @@ export function PlayerDetails({ accountId }: { accountId: string }) {
 
   if (queries.some((query) => query.isError)) {
     return (
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col items-center justify-center gap-3 px-4 py-10 text-center">
-        <p className="text-muted-foreground">Couldn't load this player.</p>
-        <Button
-          variant="outline"
-          onClick={() => {
-            for (const query of queries) if (query.isError) query.refetch();
-          }}
-        >
-          Try again
-        </Button>
+      <main className="mx-auto flex w-full max-w-6xl flex-1 items-center justify-center px-4 py-10">
+        <div className="flex w-full max-w-md flex-col items-center gap-3 hud-panel px-6 py-10 text-center">
+          <p className="text-muted-foreground">Couldn't load this player.</p>
+          <Button
+            variant="outline"
+            onClick={() => {
+              for (const query of queries) if (query.isError) query.refetch();
+            }}
+          >
+            Try again
+          </Button>
+        </div>
       </main>
     );
   }
@@ -88,12 +91,15 @@ export function PlayerDetails({ accountId }: { accountId: string }) {
     >
       <title>{name ? `${name} · Dota stats` : "Dota stats"}</title>
       <StaggerItem>
-        <Link
-          href="/"
-          className="text-sm text-muted-foreground hover:text-foreground"
+        <Button
+          variant="outline"
+          size="sm"
+          nativeButton={false}
+          render={<Link href="/" />}
         >
-          ← Back to top players
-        </Link>
+          <IconArrowLeft />
+          Top players
+        </Button>
       </StaggerItem>
       <StaggerItem>
         <PlayerHeader player={player} />

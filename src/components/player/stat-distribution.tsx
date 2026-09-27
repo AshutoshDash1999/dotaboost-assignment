@@ -57,7 +57,7 @@ const chartConfig = {
 
 type BinRow = { x: number; label: string; win: number; loss: number };
 
-const BAR_RADIUS = 4;
+const BAR_RADIUS = 2;
 
 // Round the outer ends of each stack, whichever segment ends up there
 function stackedBar(segment: "win" | "loss") {
@@ -132,7 +132,7 @@ export function StatDistribution({ accountId }: { accountId: string }) {
             </Button>
           </div>
         ) : isLoading ? (
-          <div className="h-72 animate-pulse rounded-lg bg-muted" />
+          <div className="h-72 rounded-sm hud-skeleton" />
         ) : data.length === 0 ? (
           <p className="py-6 text-center text-muted-foreground">
             No matches recorded this stat.
