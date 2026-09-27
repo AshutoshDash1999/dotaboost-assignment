@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cinzel, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { cn } from "@/lib/utils";
 import { QueryProvider } from "@/providers/query-provider";
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <QueryProvider>
           <SiteHeader />
           {children}
+          <SiteFooter />
         </QueryProvider>
       </body>
     </html>
