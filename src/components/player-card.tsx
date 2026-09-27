@@ -8,28 +8,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import type { TopPlayer } from "@/lib/api/types";
+import { dayjs } from "@/lib/dayjs";
 import { getRankLabel } from "@/lib/rank";
-
-const relativeTime = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
-
-const UNITS: [Intl.RelativeTimeFormatUnit, number][] = [
-  ["year", 365 * 24 * 60 * 60],
-  ["month", 30 * 24 * 60 * 60],
-  ["day", 24 * 60 * 60],
-  ["hour", 60 * 60],
-  ["minute", 60],
-];
-
-function formatLastMatch(time: string | null) {
-  if (!time) return "—";
-  const seconds = (new Date(time).getTime() - Date.now()) / 1000;
-  for (const [unit, size] of UNITS) {
-    if (Math.abs(seconds) >= size) {
-      return relativeTime.format(Math.round(seconds / size), unit);
-    }
-  }
-  return "just now";
-}
 
 export function PlayerCard({
   player,
@@ -72,7 +52,9 @@ export function PlayerCard({
           <div>
             <p className="text-xs text-muted-foreground">Last match</p>
             <p className="font-medium">
-              {formatLastMatch(player.last_match_time)}
+              {player.last_match_time
+                ? dayjs.utc(player.last_match_time).local().fromNow()
+                : "—"}
             </p>
           </div>
         </CardContent>

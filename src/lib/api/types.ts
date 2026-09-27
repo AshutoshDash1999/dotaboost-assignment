@@ -19,3 +19,27 @@ export interface TopPlayer {
   plus?: boolean;
   fh_unavailable?: boolean;
 }
+
+export interface SearchResult {
+  account_id: number;
+  personaname: string | null;
+  avatarfull: string | null;
+  last_match_time: string | null;
+  sml?: number;
+}
+
+export interface PlayerProfile {
+  profile?: {
+    account_id: number;
+    personaname: string | null;
+    name?: string | null;
+    avatarfull: string | null;
+    profileurl?: string;
+    loccountrycode?: string | null;
+    plus?: boolean;
+  };
+  rank_tier: number | null;
+  leaderboard_rank?: number | null;
+  computed_mmr?: number | null;
+  fh_unavailable?: boolean;
+}
