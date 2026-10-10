@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SiteNav } from "@/components/site-nav";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import { buttonVariants } from "@/components/ui/button";
 
@@ -27,9 +28,12 @@ export function SiteHeader() {
             Dota Stats
           </span>
         </Link>
-        <AnimatedThemeToggler
-          className={buttonVariants({ variant: "outline", size: "icon" })}
-        />
+        <div className="flex items-center gap-2 sm:gap-4">
+          <SiteNav />
+          <AnimatedThemeToggler
+            className={buttonVariants({ variant: "outline", size: "icon" })}
+          />
+        </div>
       </div>
       <div className="hud-divider" />
     </header>
