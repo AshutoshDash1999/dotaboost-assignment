@@ -121,3 +121,107 @@ export interface HistogramBin {
   games: number;
   win: number;
 }
+
+export interface ItemConstant {
+  id: number;
+  img: string;
+  dname?: string;
+  cost?: number | null;
+}
+
+// Generic dotaconstants entry, e.g. game_mode, lobby_type
+export interface NamedConstant {
+  id: number;
+  name: string;
+}
+
+export interface PickBan {
+  is_pick: boolean;
+  hero_id: number;
+  // 0 = Radiant, 1 = Dire
+  team: number;
+  order: number;
+}
+
+export interface TimedEvent {
+  time: number;
+  key: string;
+}
+
+export interface ChatEntry {
+  time: number;
+  // "chat" for typed messages, "chatwheel" for wheel phrases
+  type: string;
+  key: string;
+  player_slot?: number | null;
+  unit?: string;
+}
+
+export interface MatchTeam {
+  team_id: number;
+  name: string;
+  tag?: string;
+  logo_url?: string | null;
+}
+
+export interface MatchPlayer {
+  account_id?: number | null;
+  personaname?: string | null;
+  name?: string | null;
+  player_slot: number;
+  isRadiant: boolean;
+  hero_id: number;
+  level: number;
+  kills: number;
+  deaths: number;
+  assists: number;
+  last_hits: number;
+  denies: number;
+  gold_per_min: number;
+  xp_per_min: number;
+  net_worth?: number;
+  hero_damage?: number;
+  tower_damage?: number;
+  hero_healing?: number;
+  item_0: number;
+  item_1: number;
+  item_2: number;
+  item_3: number;
+  item_4: number;
+  item_5: number;
+  backpack_0?: number;
+  backpack_1?: number;
+  backpack_2?: number;
+  item_neutral?: number;
+  rank_tier?: number | null;
+  // Parsed matches only
+  purchase_log?: TimedEvent[] | null;
+}
+
+export interface Match {
+  match_id: number;
+  start_time: number;
+  duration: number;
+  radiant_win: boolean;
+  radiant_score: number;
+  dire_score: number;
+  game_mode: number;
+  lobby_type: number;
+  region?: number;
+  first_blood_time?: number;
+  leagueid?: number;
+  league?: { leagueid: number; name: string; tier?: string } | null;
+  radiant_team?: MatchTeam | null;
+  dire_team?: MatchTeam | null;
+  picks_bans?: PickBan[] | null;
+  players: MatchPlayer[];
+  // Parsed matches only
+  radiant_gold_adv?: number[] | null;
+  radiant_xp_adv?: number[] | null;
+  chat?: ChatEntry[] | null;
+  od_data?: { has_parsed?: boolean };
+}
+
+export interface ParseRequest {
+  job?: { jobId: number };
+}
