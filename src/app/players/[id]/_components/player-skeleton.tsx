@@ -47,3 +47,21 @@ export function PlayerOverviewSkeleton() {
     </div>
   );
 }
+
+// Placeholder for list-style tabs (matches, heroes, peers)
+export function PlayerTabSkeleton({ rows = 8 }: { rows?: number }) {
+  return (
+    <Card>
+      <CardHeader>
+        <div className="h-5 w-40 rounded-sm hud-skeleton" />
+      </CardHeader>
+      <CardContent className="space-y-3">
+        {Array.from({ length: rows }, (_, index) => `row-${index}`).map(
+          (key) => (
+            <div key={key} className="h-8 rounded-sm hud-skeleton" />
+          ),
+        )}
+      </CardContent>
+    </Card>
+  );
+}

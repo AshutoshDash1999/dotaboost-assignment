@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         hostname: "www.opendota.com",
         pathname: "/assets/images/dota2/rank_icons/**",
       },
+      {
+        protocol: "https",
+        hostname: "www.opendota.com",
+        pathname: "/assets/images/dota2/map/**",
+      },
     ],
   },
 };

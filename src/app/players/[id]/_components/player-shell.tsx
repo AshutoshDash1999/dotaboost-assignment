@@ -1,17 +1,29 @@
 "use client";
 
-import { IconArrowLeft } from "@tabler/icons-react";
+import { IconArrowLeft, IconLoader2, IconRefresh } from "@tabler/icons-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { routes } from "@/components/entity-link";
 import { isNotFound, QueryError } from "@/components/query-error";
 import { Stagger, StaggerItem } from "@/components/stagger";
 import { TabNav } from "@/components/tab-nav";
 import { Button } from "@/components/ui/button";
-import { usePlayerLookup } from "@/lib/api/hooks";
+import { usePlayerLookup, useRefreshPlayer } from "@/lib/api/hooks";
+import { usePlayerFilters } from "../_hooks/use-player-filters";
+import { PlayerFilters } from "./player-filters";
 import { PlayerHeader } from "./player-header";
 import { PlayerNotFound } from "./player-not-found";
 import { PlayerHeaderSkeleton } from "./player-skeleton";
+
+const TABS = [
+  { label: "Overview", path: "", filterable: true },
+  { label: "Matches", path: "/matches", filterable: true },
+  { label: "Heroes", path: "/heroes", filterable: true },
+  { label: "Peers", path: "/peers", filterable: true },
+  { label: "Rankings", path: "/rankings", filterable: false },
+  { label: "Activity", path: "/activity", filterable: true },
+];
 
 // Header and tabs stay mounted while the tab content below changes
 export function PlayerShell({
@@ -21,9 +33,18 @@ export function PlayerShell({
   accountId: string;
   children: ReactNode;
 }) {
+  const pathname = usePathname();
   const lookup = usePlayerLookup(accountId);
+  const refresh = useRefreshPlayer(accountId);
+  const { queryString } = usePlayerFilters();
+
   const base = routes.player(accountId);
-  const tabs = [{ label: "Overview", href: base }];
+  const current = TABS.find((tab) => pathname === base + tab.path);
+  const suffix = queryString ? `?${queryString}` : "";
+  const tabs = TABS.map((tab) => ({
+    label: tab.label,
+    href: base + tab.path + suffix,
+  }));
 
   if (isNotFound(lookup.error)) return <PlayerNotFound />;
 
@@ -41,7 +62,7 @@ export function PlayerShell({
     <main className="mx-auto w-full max-w-6xl flex-1 space-y-8 px-4 py-10 sm:px-6">
       <title>{name ? `${name} · Dota stats` : "Dota stats"}</title>
       <Stagger className="space-y-8">
-        <StaggerItem>
+        <StaggerItem className="flex items-center justify-between gap-3">
           <Button
             variant="outline"
             size="sm"
@@ -51,6 +72,20 @@ export function PlayerShell({
             <IconArrowLeft />
             Top players
           </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={refresh.isPending}
+            onClick={() => refresh.mutate()}
+            title="Ask OpenDota to re-fetch this player's match history"
+          >
+            {refresh.isPending ? (
+              <IconLoader2 className="animate-spin" />
+            ) : (
+              <IconRefresh />
+            )}
+            {refresh.isSuccess ? "Refresh queued" : "Refresh data"}
+          </Button>
         </StaggerItem>
         <StaggerItem className="space-y-4">
           {lookup.player ? (
@@ -59,6 +94,7 @@ export function PlayerShell({
             <PlayerHeaderSkeleton />
           )}
           <TabNav items={tabs} />
+          {current?.filterable && <PlayerFilters />}
         </StaggerItem>
       </Stagger>
       {children}
