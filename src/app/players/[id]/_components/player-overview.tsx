@@ -1,10 +1,8 @@
 "use client";
 
-import { IconArrowLeft } from "@tabler/icons-react";
 import { motion } from "motion/react";
-import Link from "next/link";
+import { QueryError } from "@/components/query-error";
 import { StaggerItem, staggerContainer } from "@/components/stagger";
-import { Button } from "@/components/ui/button";
 import {
   useHeroes,
   usePlayerCounts,
@@ -17,9 +15,7 @@ import {
 import { AverageStats } from "./average-stats";
 import { LaneRoles } from "./lane-roles";
 import { PerformanceTrend } from "./performance-trend";
-import { PlayerHeader } from "./player-header";
-import { PlayerNotFound } from "./player-not-found";
-import { PlayerSkeleton } from "./player-skeleton";
+import { PlayerOverviewSkeleton } from "./player-skeleton";
 import { PlayerStats } from "./player-stats";
 import { RecentMatches } from "./recent-matches";
 import { StatDistribution } from "./stat-distribution";
@@ -29,12 +25,7 @@ const RECENT_MATCHES = 5;
 const RECENT_WL_LIMIT = 20;
 const TOP_HEROES = 10;
 
-// OpenDota answers 404 for accounts it has never seen
-const isNotFound = (error: unknown) =>
-  (error as { response?: { status?: number } } | null)?.response?.status ===
-  404;
-
-export function PlayerDetails({ accountId }: { accountId: string }) {
+export function PlayerOverview({ accountId }: { accountId: string }) {
   const lookup = usePlayerLookup(accountId);
   const overall = usePlayerWinLoss(accountId);
   const recent = usePlayerWinLoss(accountId, RECENT_WL_LIMIT);
@@ -55,55 +46,24 @@ export function PlayerDetails({ accountId }: { accountId: string }) {
     heroes,
   ];
 
-  if (isNotFound(lookup.error)) return <PlayerNotFound />;
-
   if (queries.some((query) => query.isError)) {
     return (
-      <main className="mx-auto flex w-full max-w-6xl flex-1 items-center justify-center px-4 py-10">
-        <div className="flex w-full max-w-md flex-col items-center gap-3 hud-panel px-6 py-10 text-center">
-          <p className="text-muted-foreground">Couldn't load this player.</p>
-          <Button
-            variant="outline"
-            onClick={() => {
-              for (const query of queries) if (query.isError) query.refetch();
-            }}
-          >
-            Try again
-          </Button>
-        </div>
-      </main>
+      <QueryError message="Couldn't load this player." queries={queries} />
     );
   }
 
   const player = lookup.player;
   if (!player || queries.some((query) => query.isLoading)) {
-    return <PlayerSkeleton />;
+    return <PlayerOverviewSkeleton />;
   }
 
-  const name = player.profile?.personaname;
-
   return (
-    <motion.main
-      className="mx-auto w-full max-w-6xl flex-1 space-y-8 px-4 py-10 sm:px-6"
+    <motion.div
+      className="space-y-8"
       variants={staggerContainer}
       initial="hidden"
       animate="show"
     >
-      <title>{name ? `${name} · Dota stats` : "Dota stats"}</title>
-      <StaggerItem>
-        <Button
-          variant="outline"
-          size="sm"
-          nativeButton={false}
-          render={<Link href="/" />}
-        >
-          <IconArrowLeft />
-          Top players
-        </Button>
-      </StaggerItem>
-      <StaggerItem>
-        <PlayerHeader player={player} />
-      </StaggerItem>
       <StaggerItem>
         <PlayerStats
           player={player}
@@ -140,6 +100,6 @@ export function PlayerDetails({ accountId }: { accountId: string }) {
       <StaggerItem>
         <StatDistribution accountId={accountId} />
       </StaggerItem>
-    </motion.main>
+    </motion.div>
   );
 }
