@@ -3,4 +3,5 @@ export * from "./useHeroes";
 export * from "./useMatches";
 export * from "./usePlayer";
 export * from "./usePlayers";
+export * from "./usePro";
 export * from "./useSearch";

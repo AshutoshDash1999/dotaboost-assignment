@@ -419,3 +419,93 @@ export interface LaneRoleScenario {
   games: string;
   wins: string;
 }
+
+export interface ProMatch {
+  match_id: number;
+  start_time: number;
+  duration: number;
+  radiant_win: boolean;
+  radiant_score: number;
+  dire_score: number;
+  radiant_team_id?: number | null;
+  radiant_name?: string | null;
+  dire_team_id?: number | null;
+  dire_name?: string | null;
+  leagueid?: number;
+  league_name?: string | null;
+}
+
+export interface PublicMatch {
+  match_id: number;
+  start_time: number;
+  duration: number;
+  radiant_win: boolean;
+  game_mode: number;
+  lobby_type: number;
+  avg_rank_tier?: number | null;
+  radiant_team: number[];
+  dire_team: number[];
+}
+
+export interface ProPlayer {
+  account_id: number;
+  name: string;
+  personaname?: string | null;
+  team_id?: number | null;
+  team_name?: string | null;
+  team_tag?: string | null;
+  country_code?: string | null;
+  // 1 = core, 2 = support, 0 = unknown
+  fantasy_role?: number | null;
+  avatarfull?: string | null;
+  last_match_time?: string | null;
+}
+
+export interface Team {
+  team_id: number;
+  name: string;
+  tag?: string | null;
+  logo_url?: string | null;
+  rating?: number | null;
+  wins: number;
+  losses: number;
+  last_match_time?: number | null;
+}
+
+export interface TeamMatch {
+  match_id: number;
+  start_time: number;
+  duration: number;
+  radiant: boolean;
+  radiant_win: boolean;
+  radiant_score: number;
+  dire_score: number;
+  leagueid?: number;
+  league_name?: string | null;
+  opposing_team_id?: number | null;
+  opposing_team_name?: string | null;
+  opposing_team_logo?: string | null;
+}
+
+export interface TeamPlayer {
+  account_id: number;
+  name: string | null;
+  games_played: number;
+  wins: number;
+  is_current_team_member: boolean | null;
+}
+
+export interface TeamHero {
+  hero_id: number;
+  localized_name?: string;
+  games_played: number;
+  wins: number;
+}
+
+export interface League {
+  leagueid: number;
+  name: string;
+  // premium, professional, amateur or excluded
+  tier?: string | null;
+  banner?: string | null;
+}

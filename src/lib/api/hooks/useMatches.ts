@@ -1,6 +1,7 @@
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { dotaApi } from "../config";
 import { ENDPOINTS } from "../endpoints";
-import type { Match, ParseRequest } from "../types";
+import type { Match, ParseRequest, ProMatch, PublicMatch } from "../types";
 
 const PARSE_POLL_MS = 5_000;
 
@@ -39,3 +40,34 @@ export const useParseJob = (jobId: number | undefined) => {
     ...query,
   };
 };
+
+// Feeds page backwards: each request asks for matches older than the last one
+const useMatchFeed = <T extends { match_id: number }>(
+  url: string,
+  params: Record<string, unknown> = {},
+) => {
+  const query = useInfiniteQuery({
+    queryKey: [url, params],
+    queryFn: ({ pageParam }) =>
+      dotaApi.get<T[]>(url, {
+        params: { ...params, less_than_match_id: pageParam },
+      }),
+    initialPageParam: undefined as number | undefined,
+    getNextPageParam: (lastPage) => lastPage.at(-1)?.match_id,
+  });
+
+  return {
+    matches: query.data?.pages.flat() ?? [],
+    ...query,
+  };
+};
+
+export const useProMatchesFeed = () =>
+  useMatchFeed<ProMatch>(ENDPOINTS.PRO_MATCHES);
+
+// Ranks are rank_tier values, e.g. 10–15 for Herald
+export const usePublicMatchesFeed = (minRank?: number, maxRank?: number) =>
+  useMatchFeed<PublicMatch>(ENDPOINTS.PUBLIC_MATCHES, {
+    min_rank: minRank,
+    max_rank: maxRank,
+  });
