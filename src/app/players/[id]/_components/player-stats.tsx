@@ -4,8 +4,8 @@ import {
   IconMedal,
   IconTrophy,
 } from "@tabler/icons-react";
-import { StatTile, winRateColor } from "@/components/player/stat-tile";
 import { RankMedal } from "@/components/rank-medal";
+import { StatTile, winRateColor } from "@/components/stat-tile";
 import type { PlayerProfile, WinLoss } from "@/lib/api/types";
 import { formatPercent, winRate } from "@/lib/dota";
 import { getRankLabel } from "@/lib/rank";

@@ -1,3 +1,3 @@
-import { PlayerNotFound } from "@/components/player/player-not-found";
+import { PlayerNotFound } from "./_components/player-not-found";
 
 export default PlayerNotFound;

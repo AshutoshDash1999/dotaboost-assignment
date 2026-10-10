@@ -1,4 +1,4 @@
-import { HeroCell } from "@/components/player/hero-cell";
+import { HeroCell } from "@/components/hero-cell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { HeroConstant, RecentMatch } from "@/lib/api/types";
 import { dayjs } from "@/lib/dayjs";

@@ -8,8 +8,8 @@ import {
   IconSparkles,
   IconSwords,
 } from "@tabler/icons-react";
-import { StatTile } from "@/components/player/stat-tile";
 import { SectionHeading } from "@/components/section-heading";
+import { StatTile } from "@/components/stat-tile";
 import type { PlayerTotal } from "@/lib/api/types";
 import { formatCompact, formatDuration } from "@/lib/dota";
 

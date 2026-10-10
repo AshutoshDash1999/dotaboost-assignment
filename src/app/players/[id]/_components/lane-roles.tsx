@@ -1,7 +1,7 @@
 "use client";
 
 import { Bar, BarChart, LabelList, XAxis, YAxis } from "recharts";
-import { ChartTooltipCard } from "@/components/player/chart-tooltip";
+import { ChartTooltipCard } from "@/components/chart-tooltip";
 import {
   Card,
   CardContent,

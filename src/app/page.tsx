@@ -1,7 +1,7 @@
 import { PlayerSearch } from "@/components/player-search";
 import { SectionHeading } from "@/components/section-heading";
 import { Stagger, StaggerItem } from "@/components/stagger";
-import { TopPlayers } from "@/components/top-players";
+import { TopPlayers } from "./_components/top-players";
 
 export default function Home() {
   return (

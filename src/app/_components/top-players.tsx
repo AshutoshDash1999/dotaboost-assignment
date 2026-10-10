@@ -1,10 +1,10 @@
 "use client";
 
 import { motion } from "motion/react";
-import { PlayerCard, PlayerCardSkeleton } from "@/components/player-card";
 import { staggerContainer, staggerItem } from "@/components/stagger";
 import { Button } from "@/components/ui/button";
 import { useTopPlayers } from "@/lib/api/hooks";
+import { PlayerCard, PlayerCardSkeleton } from "./player-card";
 
 const HOME_LIMIT = 10;
 const SKELETON_KEYS = Array.from(

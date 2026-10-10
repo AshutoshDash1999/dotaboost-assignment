@@ -3,16 +3,6 @@
 import { IconArrowLeft } from "@tabler/icons-react";
 import { motion } from "motion/react";
 import Link from "next/link";
-import { AverageStats } from "@/components/player/average-stats";
-import { LaneRoles } from "@/components/player/lane-roles";
-import { PerformanceTrend } from "@/components/player/performance-trend";
-import { PlayerHeader } from "@/components/player/player-header";
-import { PlayerNotFound } from "@/components/player/player-not-found";
-import { PlayerSkeleton } from "@/components/player/player-skeleton";
-import { PlayerStats } from "@/components/player/player-stats";
-import { RecentMatches } from "@/components/player/recent-matches";
-import { StatDistribution } from "@/components/player/stat-distribution";
-import { TopHeroes } from "@/components/player/top-heroes";
 import { StaggerItem, staggerContainer } from "@/components/stagger";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,6 +14,16 @@ import {
   usePlayerTotals,
   usePlayerWinLoss,
 } from "@/lib/api/hooks";
+import { AverageStats } from "./average-stats";
+import { LaneRoles } from "./lane-roles";
+import { PerformanceTrend } from "./performance-trend";
+import { PlayerHeader } from "./player-header";
+import { PlayerNotFound } from "./player-not-found";
+import { PlayerSkeleton } from "./player-skeleton";
+import { PlayerStats } from "./player-stats";
+import { RecentMatches } from "./recent-matches";
+import { StatDistribution } from "./stat-distribution";
+import { TopHeroes } from "./top-heroes";
 
 const RECENT_MATCHES = 5;
 const RECENT_WL_LIMIT = 20;

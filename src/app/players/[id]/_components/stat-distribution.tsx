@@ -10,7 +10,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { ChartTooltipCard } from "@/components/player/chart-tooltip";
+import { ChartTooltipCard } from "@/components/chart-tooltip";
 import { Button } from "@/components/ui/button";
 import {
   Card,

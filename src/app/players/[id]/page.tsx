@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { PlayerDetails } from "@/components/player/player-details";
+import { PlayerDetails } from "./_components/player-details";
 
 const isAccountId = (id: string) => /^\d+$/.test(id);
 
