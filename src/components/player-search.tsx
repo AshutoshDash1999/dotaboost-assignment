@@ -1,6 +1,6 @@
 "use client";
 
-import { IconLoader2, IconSearch } from "@tabler/icons-react";
+import { IconLoader2, IconSearch, IconSwords } from "@tabler/icons-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react";
@@ -21,9 +21,14 @@ import { getRankLabel } from "@/lib/rank";
 import { parsePlayerQuery } from "@/lib/steam";
 
 const MAX_RESULTS = 20;
+// Match IDs are ~10 digits; longer numbers can only be Steam64 IDs
+const MAX_MATCH_ID_LENGTH = 11;
 const SKELETON_KEYS = ["skeleton-0", "skeleton-1", "skeleton-2"];
 
 interface PlayerOption {
+  href: string;
+  // A numeric query may be a match ID rather than an account
+  isMatch?: boolean;
   account_id: number;
   personaname: string | null;
   avatarfull: string | null;
@@ -48,8 +53,24 @@ export function PlayerSearch() {
   const isPending = input !== debouncedInput || active.isFetching;
   const profile = lookup.player?.profile;
 
-  const options: PlayerOption[] = nameQuery
+  const rawId = debouncedInput.trim();
+  const matchOption: PlayerOption[] =
+    idQuery && rawId.length <= MAX_MATCH_ID_LENGTH
+      ? [
+          {
+            href: `/matches/${rawId}`,
+            isMatch: true,
+            account_id: Number(rawId),
+            personaname: `Open match #${rawId}`,
+            avatarfull: null,
+            description: "Look this number up as a match ID",
+          },
+        ]
+      : [];
+
+  const playerOptions: PlayerOption[] = nameQuery
     ? search.searchResults.slice(0, MAX_RESULTS).map((player) => ({
+        href: `/players/${player.account_id}`,
         account_id: player.account_id,
         personaname: player.personaname,
         avatarfull: player.avatarfull,
@@ -62,6 +83,7 @@ export function PlayerSearch() {
     : idQuery && profile
       ? [
           {
+            href: `/players/${profile.account_id}`,
             account_id: profile.account_id,
             personaname: profile.personaname,
             avatarfull: profile.avatarfull,
@@ -70,6 +92,7 @@ export function PlayerSearch() {
           },
         ]
       : [];
+  const options = [...playerOptions, ...matchOption];
 
   return (
     <section className="mx-auto my-10 max-w-2xl">
@@ -90,7 +113,7 @@ export function PlayerSearch() {
         <div ref={anchorRef}>
           <ComboboxInput
             className="h-12 w-full text-base"
-            placeholder="Search by name, Dota ID or Steam ID"
+            placeholder="Search by name, Dota ID, Steam ID or match ID"
             aria-label="Search players"
             showTrigger={false}
             showClear={!!input && !isPending}
@@ -126,10 +149,10 @@ export function PlayerSearch() {
             <ComboboxList>
               {options.map((player) => (
                 <ComboboxItem
-                  key={player.account_id}
+                  key={player.href}
                   value={player}
                   className="cursor-pointer pr-3"
-                  render={<Link href={`/players/${player.account_id}`} />}
+                  render={<Link href={player.href} />}
                 >
                   <PlayerOptionRow player={player} />
                 </ComboboxItem>
@@ -145,7 +168,11 @@ export function PlayerSearch() {
 function PlayerOptionRow({ player }: { player: PlayerOption }) {
   return (
     <>
-      {player.avatarfull ? (
+      {player.isMatch ? (
+        <div className="flex size-9 shrink-0 items-center justify-center rounded-sm border border-frame bg-gold/10 text-gold">
+          <IconSwords className="size-4.5" aria-hidden />
+        </div>
+      ) : player.avatarfull ? (
         <Image
           src={player.avatarfull}
           alt=""
@@ -164,7 +191,7 @@ function PlayerOptionRow({ player }: { player: PlayerOption }) {
           {player.description}
         </p>
       </div>
-      {player.rankTier !== undefined ? (
+      {player.isMatch ? null : player.rankTier !== undefined ? (
         <RankMedal rankTier={player.rankTier} className="size-9" />
       ) : (
         <span className="text-xs text-muted-foreground tabular-nums">
