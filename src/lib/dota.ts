@@ -41,3 +41,25 @@ export const LANE_ROLES: Record<string, string> = {
   "3": "Off lane",
   "4": "Jungle",
 };
+
+// Item images live on the same CDN with the same path format
+export const itemImageUrl = heroImageUrl;
+
+// "game_mode_captains_mode" → "Captains Mode"
+export function formatConstantName(name: string | undefined, prefix: string) {
+  if (!name) return "Unknown";
+  return name
+    .replace(prefix, "")
+    .split("_")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+export function isRadiantSlot(playerSlot: number) {
+  return playerSlot < 128;
+}
+
+// Game clock: pre-horn events have negative times, e.g. "-1:30"
+export function formatGameTime(seconds: number): string {
+  return seconds < 0 ? `-${formatDuration(-seconds)}` : formatDuration(seconds);
+}
