@@ -29,7 +29,7 @@ import {
 } from "@/components/ui/chart";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { usePlayerHistogram } from "@/lib/api/hooks";
-import type { HistogramBin } from "@/lib/api/types";
+import type { HistogramBin, PlayerFilters } from "@/lib/api/types";
 import { formatCompact, formatPercent, winRate } from "@/lib/dota";
 
 const FIELDS = [
@@ -80,11 +80,17 @@ function trimEmpty(bins: HistogramBin[]) {
   return bins.slice(first, last + 1);
 }
 
-export function StatDistribution({ accountId }: { accountId: string }) {
+export function StatDistribution({
+  accountId,
+  filters,
+}: {
+  accountId: string;
+  filters: PlayerFilters;
+}) {
   const [fieldKey, setFieldKey] = useState<FieldKey>("kills");
   const field = FIELDS.find((f) => f.key === fieldKey) ?? FIELDS[0];
   const { bins, isLoading, isError, isPlaceholderData, refetch } =
-    usePlayerHistogram(accountId, fieldKey);
+    usePlayerHistogram(accountId, fieldKey, filters);
 
   const step = bins.length > 1 ? bins[1].x - bins[0].x : 1;
   const data: BinRow[] = trimEmpty(bins).map((bin) => ({

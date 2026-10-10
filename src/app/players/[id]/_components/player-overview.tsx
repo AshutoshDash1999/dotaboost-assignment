@@ -12,6 +12,7 @@ import {
   usePlayerTotals,
   usePlayerWinLoss,
 } from "@/lib/api/hooks";
+import { usePlayerFilters } from "../_hooks/use-player-filters";
 import { AverageStats } from "./average-stats";
 import { LaneRoles } from "./lane-roles";
 import { PerformanceTrend } from "./performance-trend";
@@ -26,13 +27,15 @@ const RECENT_WL_LIMIT = 20;
 const TOP_HEROES = 10;
 
 export function PlayerOverview({ accountId }: { accountId: string }) {
+  const { filters } = usePlayerFilters();
   const lookup = usePlayerLookup(accountId);
-  const overall = usePlayerWinLoss(accountId);
-  const recent = usePlayerWinLoss(accountId, RECENT_WL_LIMIT);
+  const overall = usePlayerWinLoss(accountId, filters);
+  const recent = usePlayerWinLoss(accountId, filters, RECENT_WL_LIMIT);
+  // recentMatches has no filter support; the trend and list stay unfiltered
   const matches = usePlayerRecentMatches(accountId);
-  const playerHeroes = usePlayerHeroes(accountId);
-  const totals = usePlayerTotals(accountId);
-  const counts = usePlayerCounts(accountId);
+  const playerHeroes = usePlayerHeroes(accountId, filters);
+  const totals = usePlayerTotals(accountId, filters);
+  const counts = usePlayerCounts(accountId, filters);
   const heroes = useHeroes();
 
   const queries = [
@@ -98,7 +101,7 @@ export function PlayerOverview({ accountId }: { accountId: string }) {
         />
       </StaggerItem>
       <StaggerItem>
-        <StatDistribution accountId={accountId} />
+        <StatDistribution accountId={accountId} filters={filters} />
       </StaggerItem>
     </motion.div>
   );

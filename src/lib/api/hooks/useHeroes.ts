@@ -5,7 +5,7 @@ export const useHeroes = () => {
   const query = useConstant<Record<string, HeroConstant>>("heroes");
 
   return {
-    heroes: query.constant ?? {},
+    heroes: (query.constant ?? {}) as Record<string, HeroConstant>,
     ...query,
   };
 };

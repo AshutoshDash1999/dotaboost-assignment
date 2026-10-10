@@ -225,3 +225,90 @@ export interface Match {
 export interface ParseRequest {
   job?: { jobId: number };
 }
+
+// Query filters shared by the /players/{id}/* aggregation endpoints
+export interface PlayerFilters {
+  date?: string;
+  patch?: string;
+  game_mode?: string;
+  lobby_type?: string;
+  lane_role?: string;
+  hero_id?: string;
+  is_radiant?: string;
+  win?: string;
+}
+
+export interface PlayerMatch {
+  match_id: number;
+  player_slot: number;
+  radiant_win: boolean;
+  hero_id: number;
+  start_time: number;
+  duration: number;
+  game_mode: number;
+  lobby_type: number;
+  kills: number;
+  deaths: number;
+  assists: number;
+  average_rank?: number | null;
+  party_size?: number | null;
+  leaver_status?: number;
+}
+
+export interface PlayerPeer {
+  account_id: number;
+  personaname: string | null;
+  name?: string | null;
+  avatarfull?: string | null;
+  last_played: number;
+  with_games: number;
+  with_win: number;
+  against_games: number;
+  against_win: number;
+}
+
+export interface PlayerPro {
+  account_id: number;
+  name: string | null;
+  personaname?: string | null;
+  team_name?: string | null;
+  team_tag?: string | null;
+  avatarfull?: string | null;
+  last_played?: number | null;
+  with_games: number;
+  with_win: number;
+  against_games: number;
+  against_win: number;
+}
+
+export interface PlayerRanking {
+  hero_id: number;
+  score: number;
+  // Share of ranked players on this hero that score below this player
+  percent_rank: number;
+}
+
+export interface PlayerRating {
+  match_id: number;
+  rank_tier: number;
+  time: number;
+}
+
+// Outer key is the x cell, inner key the y cell (~64–192), value the count
+export type WardCells = Record<string, Record<string, number>>;
+
+export interface PlayerWardMap {
+  obs: WardCells;
+  sen: WardCells;
+}
+
+export interface PlayerWordCloud {
+  my_word_counts: Record<string, number> | null;
+  all_word_counts: Record<string, number> | null;
+}
+
+export interface PatchConstant {
+  id: number;
+  name: string;
+  date: string;
+}
