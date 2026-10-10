@@ -312,3 +312,110 @@ export interface PatchConstant {
   name: string;
   date: string;
 }
+
+// Picks and wins per rank bracket: 1 = Herald … 8 = Immortal
+type BracketStats = {
+  [K in `${1 | 2 | 3 | 4 | 5 | 6 | 7 | 8}_${"pick" | "win"}`]: number;
+};
+
+export interface HeroStats extends HeroConstant, BracketStats {
+  pub_pick: number;
+  pub_win: number;
+  pro_pick: number;
+  pro_win: number;
+  pro_ban: number;
+  turbo_picks: number;
+  turbo_wins: number;
+  base_health: number;
+  base_health_regen: number;
+  base_mana: number;
+  base_mana_regen: number;
+  base_armor: number;
+  base_mr: number;
+  base_attack_min: number;
+  base_attack_max: number;
+  base_str: number;
+  base_agi: number;
+  base_int: number;
+  str_gain: number;
+  agi_gain: number;
+  int_gain: number;
+  attack_range: number;
+  attack_rate: number;
+  move_speed: number;
+  day_vision: number;
+  night_vision: number;
+}
+
+export interface HeroMatchup {
+  hero_id: number;
+  games_played: number;
+  wins: number;
+}
+
+export interface HeroDuration {
+  // Lower bound of the bin, in seconds
+  duration_bin: number;
+  games_played: number;
+  wins: number;
+}
+
+// Item ID → purchase count, per game phase
+export interface HeroItemPopularity {
+  start_game_items: Record<string, number>;
+  early_game_items: Record<string, number>;
+  mid_game_items: Record<string, number>;
+  late_game_items: Record<string, number>;
+}
+
+export interface HeroProMatch {
+  match_id: number;
+  start_time: number;
+  duration: number;
+  radiant_win: boolean;
+  radiant: boolean;
+  league_name?: string | null;
+  account_id: number;
+  kills: number;
+  deaths: number;
+  assists: number;
+}
+
+export interface HeroRankingEntry {
+  account_id: number;
+  score: number;
+  personaname: string | null;
+  name?: string | null;
+  avatar?: string | null;
+  rank_tier?: number | null;
+}
+
+export interface HeroRankings {
+  hero_id: number;
+  rankings: HeroRankingEntry[];
+}
+
+export interface BenchmarkPoint {
+  percentile: number;
+  value: number;
+}
+
+export interface HeroBenchmarks {
+  hero_id: number;
+  result: Record<string, BenchmarkPoint[]>;
+}
+
+// Scenario counts come back as strings
+export interface ItemTiming {
+  item: string;
+  time: number;
+  games: string;
+  wins: string;
+}
+
+export interface LaneRoleScenario {
+  lane_role: number;
+  time: number;
+  games: string;
+  wins: string;
+}
