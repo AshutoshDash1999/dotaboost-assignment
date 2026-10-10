@@ -6,6 +6,8 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "avatars.steamstatic.com" },
       { protocol: "https", hostname: "cdn.cloudflare.steamstatic.com" },
+      // Team logos on pro matches
+      { protocol: "https", hostname: "cdn.steamusercontent.com" },
       {
         protocol: "https",
         hostname: "www.opendota.com",
