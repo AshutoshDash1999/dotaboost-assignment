@@ -2,10 +2,12 @@ import { dotaApi } from "../config";
 import { ENDPOINTS } from "../endpoints";
 import type { TopPlayer } from "../types";
 
-export const useTopPlayers = () => {
+// turbo ranks by Turbo-mode rating instead of ranked MMR
+export const useTopPlayers = (turbo = false) => {
   const query = dotaApi.useQuery<TopPlayer[]>({
     url: ENDPOINTS.TOP_PLAYERS,
-    key: [ENDPOINTS.TOP_PLAYERS],
+    params: turbo ? { turbo: 1 } : undefined,
+    key: [ENDPOINTS.TOP_PLAYERS, turbo],
   });
 
   return {

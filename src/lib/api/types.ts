@@ -509,3 +509,63 @@ export interface League {
   tier?: string | null;
   banner?: string | null;
 }
+
+export interface LivePlayer {
+  account_id: number;
+  hero_id: number;
+  // 0 = Radiant, 1 = Dire
+  team: number;
+  name?: string | null;
+}
+
+export interface LiveGame {
+  // Live match IDs arrive as strings
+  match_id: string;
+  game_time: number;
+  average_mmr?: number | null;
+  radiant_score: number;
+  dire_score: number;
+  radiant_lead: number;
+  spectators?: number;
+  league_id?: number;
+  team_name_radiant?: string;
+  team_name_dire?: string;
+  team_id_radiant?: number;
+  team_id_dire?: number;
+  players: LivePlayer[];
+}
+
+export interface MatchRecord {
+  match_id: number;
+  start_time: number;
+  hero_id: number | null;
+  score: number;
+}
+
+export interface RankDistribution {
+  ranks: {
+    rows: {
+      bin: number;
+      bin_name: number;
+      count: number;
+      cumulative_sum: number;
+    }[];
+    sum: { count: number };
+  };
+}
+
+export interface MiscScenario {
+  scenario: string;
+  is_radiant: boolean;
+  region: number;
+  games: string;
+  wins: string;
+}
+
+export interface FoundMatch {
+  match_id: number;
+  teama: number[];
+  teamb: number[];
+  teamawin: boolean;
+  start_time: number;
+}
