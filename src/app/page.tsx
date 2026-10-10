@@ -1,7 +1,7 @@
 import { PageHeader } from "@/components/page-header";
 import { PlayerSearch } from "@/components/player-search";
-import { SectionHeading } from "@/components/section-heading";
 import { Stagger, StaggerItem } from "@/components/stagger";
+import { HomeStrips } from "./_components/home-strips";
 import { TopPlayers } from "./_components/top-players";
 
 export default function Home() {
@@ -18,11 +18,9 @@ export default function Home() {
         <StaggerItem>
           <PlayerSearch />
         </StaggerItem>
-        <StaggerItem>
-          <SectionHeading title="Leaderboard" className="mb-5" />
-        </StaggerItem>
       </Stagger>
       <TopPlayers />
+      <HomeStrips />
     </main>
   );
 }

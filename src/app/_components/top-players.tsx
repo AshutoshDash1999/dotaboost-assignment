@@ -1,8 +1,11 @@
 "use client";
 
 import { motion } from "motion/react";
+import { useState } from "react";
+import { SectionHeading } from "@/components/section-heading";
 import { staggerContainer, staggerItem } from "@/components/stagger";
 import { Button } from "@/components/ui/button";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useTopPlayers } from "@/lib/api/hooks";
 import { PlayerCard, PlayerCardSkeleton } from "./player-card";
 
@@ -13,7 +16,36 @@ const SKELETON_KEYS = Array.from(
 );
 
 export function TopPlayers() {
-  const { topPlayers, isLoadingTopPlayers, isError, refetch } = useTopPlayers();
+  const [turbo, setTurbo] = useState(false);
+
+  return (
+    <section>
+      <SectionHeading
+        title="Leaderboard"
+        className="mb-5"
+        aside={
+          <ToggleGroup
+            variant="outline"
+            size="sm"
+            value={[turbo ? "turbo" : "ranked"]}
+            onValueChange={(value) => {
+              if (value[0]) setTurbo(value[0] === "turbo");
+            }}
+            aria-label="Leaderboard mode"
+          >
+            <ToggleGroupItem value="ranked">Ranked</ToggleGroupItem>
+            <ToggleGroupItem value="turbo">Turbo</ToggleGroupItem>
+          </ToggleGroup>
+        }
+      />
+      <Leaderboard turbo={turbo} />
+    </section>
+  );
+}
+
+function Leaderboard({ turbo }: { turbo: boolean }) {
+  const { topPlayers, isLoadingTopPlayers, isError, refetch } =
+    useTopPlayers(turbo);
 
   if (isLoadingTopPlayers) {
     return (
@@ -59,7 +91,11 @@ export function TopPlayers() {
           variants={staggerItem}
           whileHover={{ y: -3 }}
         >
-          <PlayerCard player={player} position={index + 1} />
+          <PlayerCard
+            player={player}
+            position={index + 1}
+            ratingLabel={turbo ? "Turbo rating" : "MMR"}
+          />
         </motion.li>
       ))}
     </motion.ol>

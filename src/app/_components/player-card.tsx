@@ -17,9 +17,11 @@ const PODIUM = [
 export function PlayerCard({
   player,
   position,
+  ratingLabel = "MMR",
 }: {
   player: TopPlayer;
   position: number;
+  ratingLabel?: string;
 }) {
   const podium = PODIUM[position - 1];
 
@@ -66,7 +68,7 @@ export function PlayerCard({
         <CardContent className="grid grid-cols-2 gap-2 border-t border-frame/60 pt-3">
           <div>
             <p className="text-[11px] font-medium tracking-wider text-muted-foreground uppercase">
-              MMR
+              {ratingLabel}
             </p>
             <p className="font-heading text-lg font-bold text-gold tabular-nums">
               {Math.round(player.computed_mmr).toLocaleString()}
