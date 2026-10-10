@@ -18,10 +18,13 @@ import { cn } from "@/lib/utils";
 const NAV_ITEMS = [
   { label: "Players", href: "/", prefixes: ["/players"] },
   { label: "Matches", href: "/matches", prefixes: ["/matches"] },
+  { label: "Live", href: "/live", prefixes: ["/live"] },
   { label: "Heroes", href: "/heroes", prefixes: ["/heroes"] },
   { label: "Teams", href: "/teams", prefixes: ["/teams"] },
   { label: "Leagues", href: "/leagues", prefixes: ["/leagues"] },
   { label: "Pros", href: "/pros", prefixes: ["/pros"] },
+  { label: "Records", href: "/records", prefixes: ["/records"] },
+  { label: "Meta", href: "/meta", prefixes: ["/meta"] },
 ];
 
 const isActive = (pathname: string, item: (typeof NAV_ITEMS)[number]) =>
@@ -68,7 +71,7 @@ export function SiteNav() {
     <>
       <NavLinks
         pathname={pathname}
-        className="hidden items-center gap-1 md:flex"
+        className="hidden items-center gap-0.5 lg:flex"
       />
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger
@@ -76,7 +79,7 @@ export function SiteNav() {
             <Button
               variant="outline"
               size="icon"
-              className="md:hidden"
+              className="lg:hidden"
               aria-label="Open menu"
             />
           }
