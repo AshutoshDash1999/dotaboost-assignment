@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { Fragment } from "react";
+import { LeagueLink, TeamLink } from "@/components/entity-link";
 import type { Match, MatchTeam, NamedConstant } from "@/lib/api/types";
 import { dayjs } from "@/lib/dayjs";
 import { formatConstantName, formatDuration } from "@/lib/dota";
@@ -38,7 +40,11 @@ function TeamName({
             fallback === "Radiant" ? "text-radiant" : "text-dire",
           )}
         >
-          {team?.name ?? fallback}
+          {team?.team_id ? (
+            <TeamLink id={team.team_id}>{team.name}</TeamLink>
+          ) : (
+            fallback
+          )}
         </p>
         {won && (
           <p className="text-[11px] font-semibold tracking-[0.25em] text-gold uppercase">
@@ -58,10 +64,18 @@ export function MatchHeader({
   gameMode: NamedConstant | undefined;
 }) {
   const details = [
-    formatConstantName(gameMode?.name, "game_mode_"),
-    match.league?.name,
-    dayjs.unix(match.start_time).format("D MMM YYYY, HH:mm"),
-  ].filter(Boolean);
+    { key: "mode", node: formatConstantName(gameMode?.name, "game_mode_") },
+    match.league && {
+      key: "league",
+      node: (
+        <LeagueLink id={match.league.leagueid}>{match.league.name}</LeagueLink>
+      ),
+    },
+    {
+      key: "date",
+      node: dayjs.unix(match.start_time).format("D MMM YYYY, HH:mm"),
+    },
+  ].filter((detail) => !!detail);
 
   return (
     <header className="overflow-hidden hud-panel p-5 sm:p-8">
@@ -98,7 +112,12 @@ export function MatchHeader({
           />
         </div>
         <p className="mt-4 text-center text-sm text-muted-foreground">
-          {details.join(" · ")}
+          {details.map((detail, index) => (
+            <Fragment key={detail.key}>
+              {index > 0 && " · "}
+              {detail.node}
+            </Fragment>
+          ))}
         </p>
       </div>
     </header>
