@@ -1,5 +1,6 @@
 import { MatchLink } from "@/components/entity-link";
 import { HeroCell } from "@/components/hero-cell";
+import { ResultBadge } from "@/components/result-badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { HeroConstant, RecentMatch } from "@/lib/api/types";
 import { dayjs } from "@/lib/dayjs";
@@ -68,16 +69,7 @@ export function RecentMatches({
                         </MatchLink>
                       </td>
                       <td className="py-2.5 pr-4">
-                        <span
-                          className={cn(
-                            "rounded-sm border px-1.5 py-0.5 font-heading text-[11px] font-bold tracking-wider uppercase",
-                            won
-                              ? "border-radiant/40 bg-radiant/10 text-radiant"
-                              : "border-dire/40 bg-dire/10 text-dire",
-                          )}
-                        >
-                          {won ? "Victory" : "Defeat"}
-                        </span>
+                        <ResultBadge won={won} />
                       </td>
                       <td className="py-2.5 pr-4 whitespace-nowrap">
                         {match.kills} / {match.deaths} / {match.assists}

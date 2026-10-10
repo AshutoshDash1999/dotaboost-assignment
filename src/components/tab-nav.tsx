@@ -29,7 +29,8 @@ export function TabNav({
       )}
     >
       {items.map((item) => {
-        const active = pathname === item.href;
+        // Hrefs may carry a query string (e.g. filters); match on the path only
+        const active = pathname === item.href.split("?")[0];
         return (
           <Link
             key={item.href}
