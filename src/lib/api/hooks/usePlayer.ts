@@ -2,7 +2,6 @@ import { keepPreviousData } from "@tanstack/react-query";
 import { dotaApi } from "../config";
 import { ENDPOINTS } from "../endpoints";
 import type {
-  HeroConstant,
   HistogramBin,
   PlayerCounts,
   PlayerHero,
@@ -86,20 +85,6 @@ export const usePlayerHistogram = (accountId: string, field: string) => {
 
   return {
     bins: (query.data ?? []) as HistogramBin[],
-    ...query,
-  };
-};
-
-export const useHeroes = () => {
-  const query = dotaApi.useQuery<Record<string, HeroConstant>>({
-    url: ENDPOINTS.HEROES,
-    key: [ENDPOINTS.HEROES],
-    // The hero list only changes with patches
-    staleTime: Infinity,
-  });
-
-  return {
-    heroes: (query.data ?? {}) as Record<string, HeroConstant>,
     ...query,
   };
 };
