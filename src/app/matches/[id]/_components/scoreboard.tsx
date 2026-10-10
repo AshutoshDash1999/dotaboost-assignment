@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { PlayerLink } from "@/components/entity-link";
+import { HeroLink, PlayerLink } from "@/components/entity-link";
 import { ItemIcon } from "@/components/item-icon";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -63,9 +63,18 @@ function PlayerCell({
             {name}
           </span>
         )}
-        <span className="block truncate text-xs text-muted-foreground">
-          {hero?.localized_name ?? "Unknown hero"}
-        </span>
+        {hero ? (
+          <HeroLink
+            id={hero.id}
+            className="block truncate text-xs text-muted-foreground"
+          >
+            {hero.localized_name}
+          </HeroLink>
+        ) : (
+          <span className="block truncate text-xs text-muted-foreground">
+            Unknown hero
+          </span>
+        )}
       </div>
     </div>
   );

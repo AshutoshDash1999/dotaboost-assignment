@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { HeroLink } from "@/components/entity-link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { HeroConstant, Match, PickBan } from "@/lib/api/types";
 import { heroImageUrl } from "@/lib/dota";
@@ -17,17 +18,19 @@ function DraftHero({
     <div className="flex w-16 flex-col items-center gap-1 sm:w-20">
       <div className="relative">
         {hero ? (
-          <Image
-            src={heroImageUrl(hero.img)}
-            alt={hero.localized_name}
-            title={hero.localized_name}
-            width={80}
-            height={45}
-            className={cn(
-              "h-9 w-16 rounded-[2px] object-cover ring-1 ring-frame sm:h-[45px] sm:w-20",
-              !pick.is_pick && "opacity-50 grayscale",
-            )}
-          />
+          <HeroLink id={hero.id} className="block">
+            <Image
+              src={heroImageUrl(hero.img)}
+              alt={hero.localized_name}
+              title={hero.localized_name}
+              width={80}
+              height={45}
+              className={cn(
+                "h-9 w-16 rounded-[2px] object-cover ring-1 ring-frame sm:h-[45px] sm:w-20",
+                !pick.is_pick && "opacity-50 grayscale",
+              )}
+            />
+          </HeroLink>
         ) : (
           <div className="h-9 w-16 rounded-[2px] bg-muted sm:h-[45px] sm:w-20" />
         )}

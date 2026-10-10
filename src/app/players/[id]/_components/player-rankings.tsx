@@ -149,7 +149,7 @@ export function PlayerRankings({ accountId }: { accountId: string }) {
                     )}
                   >
                     <div className="min-w-0">
-                      <HeroCell hero={heroes.heroes[ranking.hero_id]} />
+                      <HeroCell hero={heroes.heroes[ranking.hero_id]} linked />
                     </div>
                     <div className="shrink-0 text-right tabular-nums">
                       <p

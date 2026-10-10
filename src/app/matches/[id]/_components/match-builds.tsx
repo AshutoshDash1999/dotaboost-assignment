@@ -53,7 +53,7 @@ export function MatchBuilds({
                   player.isRadiant ? "border-l-radiant" : "border-l-dire",
                 )}
               >
-                <HeroCell hero={heroes[player.hero_id]} />
+                <HeroCell hero={heroes[player.hero_id]} linked />
               </div>
               {purchases.length === 0 ? (
                 <p className="text-muted-foreground">No purchases recorded.</p>

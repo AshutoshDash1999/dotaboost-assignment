@@ -37,7 +37,7 @@ const columns = (
   {
     key: "hero",
     header: "Hero",
-    cell: (row) => <HeroCell hero={heroes[row.hero_id]} />,
+    cell: (row) => <HeroCell hero={heroes[row.hero_id]} linked />,
     sortValue: (row) => heroes[row.hero_id]?.localized_name ?? "",
     className: "pl-(--card-spacing)",
   },

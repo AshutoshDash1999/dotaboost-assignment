@@ -43,7 +43,7 @@ export function TopHeroes({
                   return (
                     <tr key={entry.hero_id} className="border-b last:border-0">
                       <td className="py-2.5 pr-4">
-                        <HeroCell hero={heroes[entry.hero_id]} />
+                        <HeroCell hero={heroes[entry.hero_id]} linked />
                       </td>
                       <td className="py-2.5 pr-4">
                         {entry.games.toLocaleString()}
