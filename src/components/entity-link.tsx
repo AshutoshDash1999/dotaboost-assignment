@@ -11,7 +11,7 @@ export const routes = {
   league: (id: number | string) => `/leagues/${id}`,
 };
 
-type EntityLinkProps = Omit<ComponentProps<typeof Link>, "href"> & {
+type EntityLinkProps = Omit<ComponentProps<typeof Link>, "href" | "id"> & {
   id: number | string;
 };
 
