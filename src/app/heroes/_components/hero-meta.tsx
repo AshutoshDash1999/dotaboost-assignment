@@ -1,11 +1,12 @@
 "use client";
 
-import { IconLayoutGrid, IconList, IconSearch } from "@tabler/icons-react";
+import { IconLayoutGrid, IconList } from "@tabler/icons-react";
 import { useState } from "react";
+import { ListSearch } from "@/components/list-search";
+import { PageHeader } from "@/components/page-header";
 import { QueryError } from "@/components/query-error";
 import { SectionHeading } from "@/components/section-heading";
 import { Stagger, StaggerItem } from "@/components/stagger";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -73,28 +74,19 @@ export function HeroMeta() {
     <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10 sm:px-6 sm:py-14">
       <Stagger className="space-y-8">
         <StaggerItem>
-          <header className="text-center">
-            <p className="text-xs font-semibold tracking-[0.3em] text-muted-foreground uppercase">
-              Hero meta · OpenDota
-            </p>
-            <h1 className="mt-3 hud-title text-4xl sm:text-6xl">Heroes</h1>
-            <p className="mt-3 text-muted-foreground">
-              Win and pick rates for every hero, by rank bracket
-            </p>
-            <div className="mx-auto mt-8 hud-divider max-w-md" />
-          </header>
+          <PageHeader
+            eyebrow="Hero meta · OpenDota"
+            title="Heroes"
+            description="Win and pick rates for every hero, by rank bracket"
+          />
         </StaggerItem>
         <StaggerItem className="flex flex-wrap items-center gap-2">
-          <div className="relative w-full sm:w-56">
-            <IconSearch className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
-            <Input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Search heroes"
-              aria-label="Search heroes"
-              className="h-8 rounded-sm pl-8"
-            />
-          </div>
+          <ListSearch
+            value={query}
+            onChange={setQuery}
+            placeholder="Search heroes"
+            className="sm:w-56"
+          />
           <ToggleGroup
             variant="outline"
             size="sm"
