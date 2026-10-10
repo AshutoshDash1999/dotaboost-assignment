@@ -1,3 +1,4 @@
+import { MatchLink } from "@/components/entity-link";
 import { HeroCell } from "@/components/hero-cell";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { HeroConstant, RecentMatch } from "@/lib/api/types";
@@ -47,7 +48,7 @@ export function RecentMatches({
                     <tr
                       key={match.match_id}
                       className={cn(
-                        "border-b last:border-0",
+                        "relative border-b transition-colors last:border-0 hover:bg-muted/50",
                         won ? "bg-radiant/5" : "bg-dire/5",
                       )}
                     >
@@ -57,7 +58,14 @@ export function RecentMatches({
                           won ? "border-l-radiant" : "border-l-dire",
                         )}
                       >
-                        <HeroCell hero={heroes[match.hero_id]} />
+                        {/* Stretched link: the whole row opens the match */}
+                        <MatchLink
+                          id={match.match_id}
+                          aria-label={`Match ${match.match_id}`}
+                          className="after:absolute after:inset-0"
+                        >
+                          <HeroCell hero={heroes[match.hero_id]} />
+                        </MatchLink>
                       </td>
                       <td className="py-2.5 pr-4">
                         <span
