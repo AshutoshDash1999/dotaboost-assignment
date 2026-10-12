@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "cdn.cloudflare.steamstatic.com" },
       // Team logos on pro matches
       { protocol: "https", hostname: "cdn.steamusercontent.com" },
+      { protocol: "https", hostname: "steamusercontent-a.akamaihd.net" },
+      { protocol: "https", hostname: "steamcdn-a.akamaihd.net" },
       {
         protocol: "https",
         hostname: "www.opendota.com",
